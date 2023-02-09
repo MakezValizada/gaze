@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./img/favicon.ico" type="image/x-icon" />
+    <title>Gazetteer App | By Makez</title>
+
+    <!-- External Styles -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./css/leaflet.css" />
+    <link rel="stylesheet" href="./css/leaflet.extra-markers.min.css" />
+    <link rel="stylesheet" href="./css/MarkerCluster.css" />
+    <link rel="stylesheet" href="./css/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="./css/easy-button.css" />
+
+    <!-- My Styles -->
+    <link rel="stylesheet" type="text/css" href="./css/styles.css" />
+  </head>
+
+  <body>
+    <!--Preloader-->
+    <div class="preloader">
+      <img class="preloader-icon" src="img/loader.gif" alt="Preloader" />
+    </div>
+
+    <!--Country Selector-->
+    <div class="selector-wrapper">
+      <select name="sel-country" id="selCountry"></select>
+    </div>
+
+    <!--Map-->
+    <div id="map"></div>
+
+    <!--Map Overlay-->
+    <div id="overlay"></div>
+
+    <!--Info Modal-->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="country covid info"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1>Country Info</h1>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table id="covid-table" class="table table-striped table-hover">
+              <tbody>
+                <!-- Info 1 -->
+                <tr>
+                  <div class="flag-image"></div>
+                  <td rowspan="3" class="info-icon">
+                    <i class="fas fa-globe"></i>
+                  </td>
+                  <td>Country Code:</td>
+                  <td id="country-code"></td>
+                </tr>
+                <tr>
+                  <td>Country Capital:</td>
+                  <td id="country-capital"></td>
+                </tr>
+                <tr>
+                  <td>Country Population:</td>
+                  <td id="country-population"></td>
+                </tr>
+                <!-- Info 2 -->
+                <tr>
+                  <td rowspan="3" class="info-icon">
+                    <i class="fas fa-binoculars"></i>
+                  </td>
+                  <td>Dialling Code:</td>
+                  <td id="calling-codes"></td>
+                </tr>
+                <tr>
+                  <td>Language:</td>
+                  <td id="country-language"></td>
+                </tr>
+                <tr>
+                  <td>Wikipedia Link</td>
+                  <td id="country-wikipedia">
+                    <a
+                      href="https://en.wikipedia.org/wiki/Earth"
+                      target="_blank"
+                      id="myLink"
+                      >Click Here!</a
+                    >
+                  </td>
+                </tr>
+                <!-- Info 3 -->
+                <tr>
+                  <td rowspan="3" class="info-icon">
+                    <i class="fas fa-coins"></i>
+                  </td>
+                  <td>Currency Name:</td>
+                  <td id="country-currency"></td>
+                </tr>
+                <tr>
+                  <td>Currency Symbol:</td>
+                  <td id="currency-symbol"></td>
+                </tr>
+                <tr>
+                  <td>Currency Code:</td>
+                  <td id="currency-code"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--COVID Modal -->
+    <div
+      class="modal fade"
+      id="covidModal"
+      tabindex="-1"
+      aria-labelledby="country covid info"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1>Covid Data</h1>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table id="covid-table" class="table table-striped table-hover">
+              <tbody>
+                <!-- Total Covid -->
+                <tr>
+                  <td rowspan="3" class="covid-icon">
+                    <i class="fas fa-chart-line"></i>
+                  </td>
+                  <td>Total Cases</td>
+                  <td id="total-cases"></td>
+                </tr>
+                <tr>
+                  <td>Total Deaths</td>
+                  <td id="total-deaths"></td>
+                </tr>
+                <tr>
+                  <td>Total Recovered</td>
+                  <td id="total-recovered"></td>
+                </tr>
+                <!-- New Covid -->
+                <tr>
+                  <td rowspan="3" class="covid-icon">
+                    <i class="fas fa-skull"></i>
+                  </td>
+                  <td>New Confirmed</td>
+                  <td id="new-confirmed"></td>
+                </tr>
+                <tr>
+                  <td>New Deaths</td>
+                  <td id="new-deaths"></td>
+                </tr>
+                <tr>
+                  <td>New Recovered</td>
+                  <td id="new-recovered"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Holiday Modal -->
+
+    <div
+      class="modal fade"
+      id="holidayModal"
+      tabindex="-1"
+      aria-labelledby="country holiday info"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1>National Holidays</h1>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="covid-body">
+            <table id="holiday-table" class="table table-striped table-hover">
+              <tbody id="holiday-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- News Modal -->
+    <div
+      class="modal fade"
+      id="newsModal"
+      tabindex="-1"
+      aria-labelledby="city news"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1>Latest News</h1>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div id="news-body" class="modal-body"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weather Modal -->
+    <div
+      class="modal fade"
+      id="weatherModal"
+      tabindex="-1"
+      aria-labelledby="city weather"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title" id="weather-location">
+              Capital City Weather
+            </h1>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="todays-weather-container">
+              <div class="today-weather-one">
+                <h1>Today</h1>
+                <img id="today-weather-icon" alt="weather icon" />
+              </div>
+              <div class="today-weather-two"></div>
+              <div class="today-weather-three">
+                <h3 id="today-weather-type">Rain</h3>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer weather-modal-footer">
+            <!-- TOMORROW-->
+            <div class="forecast-container">
+              <div class="forecast-one">
+                <h5 id="plus-one-date"></h5>
+                <img id="plus-one-weather-icon" alt="weather icon" />
+              </div>
+              <div class="forecast-two">
+                <p id="plus-one-max-temp"></p>
+                <p id="plus-one-min-temp"></p>
+              </div>
+            </div>
+            <!-- DAY AFTER TOMORROW-->
+            <div class="forecast-container">
+              <div class="forecast-one">
+                <h5 id="plus-two-date"></h5>
+                <img id="plus-two-weather-icon" alt="weather icon" />
+              </div>
+              <div class="forecast-two">
+                <p id="plus-two-max-temp"></p>
+                <p id="plus-two-min-temp"></p>
+              </div>
+            </div>
+            <!-- 3 DAYS -->
+            <div class="forecast-container">
+              <div class="forecast-one">
+                <h5 id="plus-three-date"></h5>
+                <img id="plus-three-weather-icon" alt="weather icon" />
+              </div>
+              <div class="forecast-two">
+                <p id="plus-three-max-temp"></p>
+                <p id="plus-three-min-temp"></p>
+              </div>
+            </div>
+            <!-- 4 DAYS -->
+            <div class="forecast-container">
+              <div class="forecast-one">
+                <h5 id="plus-four-date"></h5>
+                <img id="plus-four-weather-icon" alt="weather icon" />
+              </div>
+              <div class="forecast-two">
+                <p id="plus-four-max-temp"></p>
+                <p id="plus-four-min-temp"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Jquery-->
+    <script
+      src="./jquery/jquery-3.5.1.min.js"
+      type="application/javascript"
+    ></script>
+    <!--Leaflet-->
+    <script src="./js/leaflet.js"></script>
+    <!--Cluster Marker-->
+    <script src="./js/leaflet.markercluster.js"></script>
+    <!--Extra Marker-->
+    <script src="./js/leaflet.extra-markers.min.js"></script>
+    <!--Easy Buttons-->
+    <script src="./js/easy-button.js"></script>
+
+    <!--Fontawesome-->
+    <script src="./js/font-awesome.js"></script>
+    <!--Bootstrap-->
+    <script src="./js/bootstrap.min.js"></script>
+    <!--Date JS-->
+    <script src="./js/date-en-GB.js"></script>
+    <!--Main-->
+    <script src="./js/main.js"></script>
+  </body>
+</html>
