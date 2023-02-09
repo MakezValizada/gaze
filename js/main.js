@@ -91,8 +91,8 @@ $.ajax({
     }
   },
   error: function (jqXHR, textStatus, errorThrown) {
-    // console.log(textStatus, errorThrown);
-    // console.log(jqXHR.responseText);
+    // //console.log(textStatus, errorThrown);
+    // //console.log(jqXHR.responseText);
   },
 });
 
@@ -119,8 +119,8 @@ const getBorders = (position) => {
       $("#selCountry").val(currentCountry).change();
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      // console.log(textStatus, errorThrown);
-      // console.log(jqXHR.responseText);
+      // //console.log(textStatus, errorThrown);
+      // //console.log(jqXHR.responseText);
     },
   });
 };
@@ -220,7 +220,7 @@ $("#selCountry").on("change", function () {
           })
             .addTo(layerGroup)
             .on("click", function (e) {
-              console.log("click click");
+              //console.log("click click");
               newMarker
                 .bindPopup(
                   "<strong  class='title' >" +
@@ -244,7 +244,7 @@ $("#selCountry").on("change", function () {
           })
             .addTo(layerGroup)
             .on("click", function (e) {
-              console.log("city clicked");
+              //console.log("city clicked");
 
               newMarker
                 .bindPopup(
@@ -264,8 +264,8 @@ $("#selCountry").on("change", function () {
       });
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      console.log(textStatus, errorThrown);
-      console.log(jqXHR.responseText);
+      //console.log(textStatus, errorThrown);
+      //console.log(jqXHR.responseText);
     },
   });
 
@@ -279,7 +279,7 @@ $("#selCountry").on("change", function () {
       countryCode: iso_a2,
     },
   }).done((result) => {
-    console.log("POI Working");
+    //console.log("POI Working");
     const marker = L.ExtraMarkers.icon({
       icon: "fa-binoculars",
       markerColor: "#AFD5AA",
@@ -297,7 +297,7 @@ $("#selCountry").on("change", function () {
       })
         .addTo(layerGroup)
         .on("click", function (e) {
-          console.log("click POI");
+          //console.log("click POI");
           newMarker
             .bindPopup(
               "<strong class='title'>Point of Interest" +
@@ -405,8 +405,8 @@ $("#selCountry").on("change", function () {
 
     error: function (jqXHR, textStatus, errorThrown) {
       // your error code
-      console.log(textStatus, errorThrown);
-      console.log(jqXHR.responseText);
+      //console.log(textStatus, errorThrown);
+      //console.log(jqXHR.responseText);
     },
   });
 
@@ -418,13 +418,13 @@ $("#selCountry").on("change", function () {
       country: $("#selCountry").val(),
     },
     success: function (result) {
-      console.log("restCountries", result);
+      //console.log("restCountries", result);
       if (result.status.name == "ok") {
         currencyCode = result.currency.code;
         currentCapital = result.capital;
         var CountrySpecial = result.name;
         countryName = CountrySpecial.replace(/\s+/g, "_");
-        console.log(currentCapital);
+        //console.log(currentCapital);
       }
 
       //openWeather API
@@ -436,7 +436,7 @@ $("#selCountry").on("change", function () {
           capital: currentCapital,
         },
         success: function (result) {
-          console.log("currentCapital", result);
+          //console.log("currentCapital", result);
           capitalCityLat = result.weatherData.coord.lat;
           capitalCityLon = result.weatherData.coord.lon;
           if (result.status.name == "ok") {
@@ -444,8 +444,8 @@ $("#selCountry").on("change", function () {
         },
 
         error: function (jqXHR, textStatus, errorThrown) {
-          console.log(jqXHR.responseText);
-          console.log(errorThrown);
+          //console.log(jqXHR.responseText);
+          //console.log(errorThrown);
         },
       });
     },
@@ -465,8 +465,8 @@ $("#selCountry").on("change", function () {
         currentCapital = result.capital;
         var CountrySpecial = result.name;
         countryName = CountrySpecial.replace(/\s+/g, "_");
-        console.log(currentCapital);
-        console.log(CountrySpecial);
+        //console.log(currentCapital);
+        //console.log(CountrySpecial);
 
         $("#country-capital").html("<td>" + result.capital + "</td>");
         $("#country-population").html(
@@ -498,7 +498,7 @@ $("#selCountry").on("change", function () {
           capital: currentCapital,
         },
         success: function (result) {
-          // console.log("currentCapital", result);
+          // //console.log("currentCapital", result);
           capitalCityLat = result.weatherData.coord.lat;
           capitalCityLon = result.weatherData.coord.lon;
 
@@ -527,8 +527,8 @@ $("#selCountry").on("change", function () {
         },
 
         error: function (jqXHR, textStatus, errorThrown) {
-          console.log(jqXHR.responseText);
-          console.log(errorThrown);
+          //console.log(jqXHR.responseText);
+          //console.log(errorThrown);
         },
       });
     },
@@ -545,7 +545,7 @@ $("#selCountry").on("change", function () {
       $("#modal-body").html(
         '<div class="preloader"> <img class="preloader-icon" src="img/loader.gif" alt="Site Preloader"/> </div>'
       );
-      console.log("covid data", result);
+      //console.log("covid data", result);
       if (result.status.name == "ok") {
         $("#total-cases").html(
           "<td>" + result.data[0].toLocaleString("en-US") + "</td>"
@@ -579,8 +579,8 @@ $("#selCountry").on("change", function () {
     },
     error: function (jqXHR, textStatus, errorThrown) {
       // your error code
-      console.log(textStatus, errorThrown);
-      console.log(jqXHR.responseText);
+      //console.log(textStatus, errorThrown);
+      //console.log(jqXHR.responseText);
     },
   });
 
@@ -593,7 +593,7 @@ $("#selCountry").on("change", function () {
         country: $("#selCountry").val(),
       },
       success: function (result) {
-        console.log("holiday data", result);
+        //console.log("holiday data", result);
         if (result.status.name == "ok") {
           if (result.data.totalResults === 0) {
             $("#holiday-body").append(
@@ -616,8 +616,8 @@ $("#selCountry").on("change", function () {
       },
       error: function (jqXHR, textStatus, errorThrown) {
         // your error code
-        console.log(textStatus, errorThrown);
-        console.log(jqXHR.responseText);
+        //console.log(textStatus, errorThrown);
+        //console.log(jqXHR.responseText);
       },
     });
 
@@ -630,7 +630,7 @@ $("#selCountry").on("change", function () {
         country: $("#selCountry").val(),
       },
       success: function (result) {
-        console.log("news data", result);
+        //console.log("news data", result);
         if (result.status.name == "ok") {
           if (result.data.totalResults === 0) {
             $("#news-body").append(
@@ -653,8 +653,8 @@ $("#selCountry").on("change", function () {
       },
       error: function (jqXHR, textStatus, errorThrown) {
         // your error code
-        console.log(textStatus, errorThrown);
-        console.log(jqXHR.responseText);
+        //console.log(textStatus, errorThrown);
+        //console.log(jqXHR.responseText);
       },
     });
 
@@ -667,7 +667,7 @@ $("#selCountry").on("change", function () {
       lng: capitalCityLon,
     },
     success: function (result) {
-      console.log("weather data", result);
+      //console.log("weather data", result);
       if (result.status.name == "ok") {
         $("#today-weather-icon").attr(
           "src",
@@ -825,7 +825,7 @@ L.easyButton({
             lng: capitalCityLon,
           },
           success: function (result) {
-            console.log("weather data", result);
+            //console.log("weather data", result);
             if (result.status.name == "ok") {
               $("#today-weather-icon").attr(
                 "src",
@@ -905,8 +905,8 @@ L.easyButton({
           },
           error: function (jqXHR, textStatus, errorThrown) {
             // your error code
-            console.log(textStatus, errorThrown);
-            console.log(jqXHR.responseText);
+            //console.log(textStatus, errorThrown);
+            //console.log(jqXHR.responseText);
           },
         });
       },
@@ -915,4 +915,4 @@ L.easyButton({
   ],
 }).addTo(map);
 
-console.log(CountrySpecial);
+//console.log(CountrySpecial);
